@@ -39,12 +39,15 @@ class AuthController extends Controller
             // 4. REGENERATE SESSION
             $request->session()->regenerate();
 
-            // 5. REDIRECT SESUAI ROLE
+           // 5. REDIRECT SESUAI ROLE
             if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.dashboard')
+                    ->with('success', 'Login berhasil'); // flash message
             }
 
-            return redirect()->route('user.dashboard');
+            return redirect()->route('user.dashboard')
+                ->with('success', 'Login berhasil'); // flash message
+
         }
 
         // 6. LOGIN GAGAL

@@ -53,6 +53,19 @@
                 }
             });
         }
+
+
+    @if(session('success'))
+        Swal.fire({
+            toast: true,
+            position: 'top-end', // pojok kanan atas
+            icon: 'success',
+            title: '{{ session('success') }}',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+        });
+    @endif
     </script>
 
 </body>
