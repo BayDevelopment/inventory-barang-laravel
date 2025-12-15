@@ -37,33 +37,8 @@
                 <h3 class="fw-bold mb-2">Masuk</h3>
                 <p class="text-muted mb-4">Login menggunakan email dan password.</p>
 
-                {{-- Error message --}}
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                {{-- Session status (opsional) --}}
-                @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                @endif
-
                 <form method="POST" action="{{ route('aksi.login') }}" class="needs-validation" novalidate>
                     @csrf
-
-                    {{-- ALERT UMUM (opsional) --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            Email/password tidak valid. Silakan coba lagi.
-                        </div>
-                    @endif
 
                     {{-- EMAIL --}}
                     <div class="form-floating mb-3">
@@ -119,6 +94,51 @@
     {{-- Kalau pakai CDN:
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 --}}
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-</html>
+    {{-- ERROR VALIDASI --}}
+    @if ($errors->any() && !session('login_error'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: 'Terjadi kesalahan',
+                html: `{!! implode('<br>', $errors->all()) !!}`,
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true
+            });
+        </script>
+    @endif
+
+    {{-- LOGIN GAGAL --}}
+    @if (session('login_error'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: 'Login gagal',
+                text: '{{ session('login_error') }}',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        </script>
+    @endif
+
+    {{-- STATUS / SUCCESS --}}
+    @if (session('status'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: '{{ session('status') }}',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        </script>
+    @endif

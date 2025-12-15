@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 // Dashboard admin
 Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/data-barang', [BarangController::class, 'PageBarang'])->name('admin.data-barang');
 });
 
 // Dashboard user

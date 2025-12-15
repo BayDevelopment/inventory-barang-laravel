@@ -39,7 +39,7 @@ class AuthController extends Controller
             // 4. REGENERATE SESSION
             $request->session()->regenerate();
 
-           // 5. REDIRECT SESUAI ROLE
+            // 5. REDIRECT SESUAI ROLE
             if (Auth::user()->role === 'admin') {
                 return redirect()->route('admin.dashboard')
                     ->with('success', 'Login berhasil'); // flash message
@@ -51,9 +51,10 @@ class AuthController extends Controller
         }
 
         // 6. LOGIN GAGAL
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
+        return back()
+            ->with('login_error', 'Email atau password salah.')
+            ->onlyInput('email');
+
     }
 
     public function logout(Request $request)
