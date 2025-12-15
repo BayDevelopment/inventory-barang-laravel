@@ -12,15 +12,16 @@ Route::get('/', function () {
 Route::get('/auth/login', [AuthController::class, 'PageLogin'])->name('page.login');
 Route::post('/auth/login', [AuthController::class, 'AksiLogin'])->name('aksi.login');
 Route::get('/auth/forgot-password', [AuthController::class, 'ForgotPassword'])->name('forgot.password');
+Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ADMIN
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
 });
 
 // USER
 Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
-    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])
         ->name('user.dashboard');
 });
