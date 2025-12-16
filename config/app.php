@@ -65,7 +65,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    // 'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,11 +79,16 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    // 'locale' => env('APP_LOCALE', 'en'),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    // 'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+    // 'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+    'locale' => env('APP_LOCALE', 'id'),
+
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'id'),
+
+    'faker_locale' => env('APP_FAKER_LOCALE', 'id_ID'),
 
     /*
     |--------------------------------------------------------------------------

@@ -15,4 +15,13 @@ class KategoriModel extends Model
     protected $keyType = 'int';
 
     protected $fillable = ['kategori', 'satuan'];
+
+    public function barang()
+    {
+        return $this->hasMany(
+            BarangModel::class,
+            'id_kategori', // FK di tb_barang
+            'id_kategori'  // PK di tb_kategori
+        );
+    }
 }

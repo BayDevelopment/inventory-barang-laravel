@@ -27,6 +27,8 @@
             @include('partials.footer')
         </div>
     </div>
+
+    @yield('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
@@ -55,17 +57,17 @@
         }
 
 
-    @if(session('success'))
-        Swal.fire({
-            toast: true,
-            position: 'top-end', // pojok kanan atas
-            icon: 'success',
-            title: '{{ session('success') }}',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-        });
-    @endif
+        @if (session('success'))
+            Swal.fire({
+                toast: true,
+                position: 'top-end', // pojok kanan atas
+                icon: 'success',
+                title: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        @endif
     </script>
 
 </body>
