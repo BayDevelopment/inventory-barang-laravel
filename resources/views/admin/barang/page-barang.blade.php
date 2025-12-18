@@ -6,7 +6,11 @@
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">{{ $navlink }}</li>
         </ol>
-
+        <div class="justify-content-start py-2">
+            <a href="{{ url('admin/data-barang/tambah') }}" class="btn btn-success btn-sm py-2"><span><i
+                        class="fa-solid fa-file-circle-plus"></i></span>
+                Tambah</a>
+        </div>
         {{-- CARD JUMLAH BARANG --}}
         <div class="row mb-4">
             <div class="col-md-4">

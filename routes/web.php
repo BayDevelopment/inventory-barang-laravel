@@ -26,12 +26,15 @@ Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/data-barang', [BarangController::class, 'PageBarang'])->name('admin.data-barang');
+    Route::get('/data-barang/tambah', [BarangController::class, 'PageTambahBarang'])->name('admin.data-barang-tambah');
+    Route::post('/data-barang/tambah', [BarangController::class, 'AksiTambahBarang'])->name('admin.data-barang-aksi');
+
+    // kategori
     Route::get('/kategori', [KategoriController::class, 'PageKategori'])->name('admin.kategori');
     Route::get('/kategori-tambah', [KategoriController::class, 'PageInsert'])->name('admin.kategori-tambah');
     Route::post('/kategori-tambah', [KategoriController::class, 'KategoriAksi'])->name('admin.kategori-aksi');
     Route::get('/kategori/{id}/edit', [KategoriController::class, 'PageEdit'])
         ->name('admin.kategori-edit');
-
     Route::put('kategori/{id}', [KategoriController::class, 'KategoriAksiUpdate'])
         ->name('admin.kategori-update');
 

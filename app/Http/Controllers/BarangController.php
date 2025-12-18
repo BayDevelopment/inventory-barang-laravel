@@ -47,4 +47,43 @@ class BarangController extends Controller
 
         return view('admin.barang.page-barang', $data);
     }
+
+    public function PageTambahBarang()
+    {
+        $lastBarang = BarangModel::orderBy('kode_barang', 'desc')->first();
+
+        if ($lastBarang) {
+            $lastNumber = (int) substr($lastBarang->kode_barang, 3); // ambil 001
+            $newNumber = $lastNumber + 1;
+            $kodeBarang = 'BRG'.str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+        } else {
+            $kodeBarang = 'BRG001';
+        }
+
+        $DataKategori = KategoriModel::all();
+
+        return view('admin.barang.page-tambah-barang', [
+            'title' => 'Tambah Barang | Inventory Barang',
+            'navlink' => 'Tambah Barang',
+            'kodebarang' => $kodeBarang,
+            'DataKategori' => $DataKategori,
+        ]);
+    }
+
+    public function AksiTambahBarang(Request $request)
+    {
+        $validated = $request->validate([
+            'kode_barang' => 'required|string|unique:tb_barang,kode_barang',
+            'nama_barang' => 'required|string|max:100',
+            'id_kategori' => 'required|exists:tb_kategori,id_kategori',
+            'stok' => 'required|integer|min:0',
+            'harga' => 'required|numeric|min:0',
+        ]);
+
+        BarangModel::create($validated);
+
+        return redirect()
+            ->route('admin.data-barang')
+            ->with('success', 'Barang berhasil ditambahkan.');
+    }
 }

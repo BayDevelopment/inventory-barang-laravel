@@ -9,8 +9,9 @@ class AdminDashboardController extends Controller
     {
         $data = [
             'title' => 'Dashboard | Inventory Barang',
+            'navlink' => 'Dashboard',
         ];
 
-        return view('admin.dashboard');
+        return view('admin.dashboard', $data);
     }
 }
