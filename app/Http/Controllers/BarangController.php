@@ -55,7 +55,7 @@ class BarangController extends Controller
         if ($lastBarang) {
             $lastNumber = (int) substr($lastBarang->kode_barang, 3); // ambil 001
             $newNumber = $lastNumber + 1;
-            $kodeBarang = 'BRG'.str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+            $kodeBarang = 'BRG' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
         } else {
             $kodeBarang = 'BRG001';
         }
@@ -85,5 +85,52 @@ class BarangController extends Controller
         return redirect()
             ->route('admin.data-barang')
             ->with('success', 'Barang berhasil ditambahkan.');
+    }
+    public function PageEditBarang($id)
+    {
+        $d_barang = BarangModel::findOrFail($id);
+        $DataKategori = KategoriModel::all();
+
+        return view('admin.barang.page-edit-barang', [
+            'title' => 'Edit Barang | Inventory Barang',
+            'navlink' => 'Edit Barang',
+            'd_barang' => $d_barang,
+            'DataKategori' => $DataKategori,
+        ]);
+    }
+    public function AksiBarangEdit(Request $request, $id)
+    {
+        $d_barang = BarangModel::findOrFail($id);
+
+        $validated = $request->validate([
+            'kode_barang' => 'required|string|unique:tb_barang,kode_barang,' . $d_barang->id_barang . ',id_barang',
+            'nama_barang' => 'required|string|max:100',
+            'id_kategori' => 'required|exists:tb_kategori,id_kategori',
+            'stok' => 'required|integer|min:0',
+            'harga' => 'required|numeric|min:0',
+        ]);
+
+        $d_barang->update($validated);
+
+        return redirect()
+            ->route('admin.data-barang')
+            ->with('success', 'Barang berhasil diperbarui.');
+    }
+    public function BarangDestroy($id)
+    {
+        $d_barang = BarangModel::findOrFail($id);
+
+        // // ❗ CEK: apakah kategori masih dipakai di tabel barang
+        // if ($d_barang->barang()->count() > 0) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('error', 'Kategori tidak bisa dihapus karena masih digunakan oleh barang.');
+        // }
+
+        $d_barang->delete();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Barang berhasil dihapus.');
     }
 }

@@ -81,7 +81,7 @@
         {{-- TABLE DATA BARANG --}}
         <div class="card">
             <div class="card-body table-responsive">
-                <table class="table table-bordered table-hover align-middle">
+                <table class="table table-bordered table-hover align-middle text-center">
                     <thead class="table-light">
                         <tr>
                             <th>No</th>
@@ -91,18 +91,33 @@
                             <th>Satuan</th>
                             <th>Stok</th>
                             <th>Harga</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($barang as $item)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $loop->iteration }}.</td>
                                 <td>{{ $item->kode_barang }}</td>
                                 <td>{{ $item->nama_barang }}</td>
                                 <td>{{ $item->kategori->kategori }}</td>
                                 <td>{{ $item->kategori->satuan }}</td>
                                 <td>{{ $item->stok }}</td>
                                 <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="{{ route('admin.data-barang-edit-page', $item->id_barang) }}" role="button" title="Edit"><i class="fa-solid fa-file-pen"></i></a>
+                                     <form id="delete-barang-form-{{ $item->id_barang }}"
+                                        action="{{ route('admin.data-barang-edit-aksi-delete', $item->id_barang) }}"
+                                        method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="confirmDeleteBarang({{ $item->id_barang }})" title="Hapus">
+                                            <i class="fa-solid fa-file-circle-xmark"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -118,3 +133,22 @@
 
     </div>
 @endsection
+@section('scripts')
+    <script>
+        function confirmDeleteBarang(id) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Data barang akan dihapus permanen!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus',
+                cancelButtonText: 'Tidak',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-barang-form-' + id).submit();
+                }
+            });
+        }
+    </script>
+@endsection()

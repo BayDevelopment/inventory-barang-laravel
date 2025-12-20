@@ -23,19 +23,20 @@
             {{-- Card Header --}}
             <div class="card-header bg-dark text-white">
                 <i class="fa-solid fa-plus me-1"></i>
-                Form Tambah Barang
+                Form Edit Barang
             </div>
 
             {{-- Card Body --}}
             <div class="card-body">
 
-                <form action="{{ route('admin.data-barang-aksi') }}" method="POST" class="needs-validation" novalidate>
+                <form action="{{ route('admin.data-barang-edit-aksi',$d_barang['id_barang']) }}" method="POST" class="needs-validation"
+                    novalidate>
                     @csrf
-
+                    @method('PUT')
                     {{-- Kode Barang --}}
                     <div class="form-floating mb-3">
                         <input type="text" name="kode_barang" id="kodebarangSet"
-                            value="{{ old('kode_barang', $kodebarang) }}"
+                            value="{{ old('kode_barang', $d_barang['kode_barang']) }}"
                             class="form-control @error('kode_barang') is-invalid @enderror" required readonly>
                         <label for="kategoriSet">Kode Barang</label>
 
@@ -47,7 +48,8 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" name="nama_barang" id="namabarangSet" value="{{ old('nama_barang') }}"
+                        <input type="text" name="nama_barang" id="namabarangSet"
+                            value="{{ old('nama_barang', $d_barang['nama_barang']) }}"
                             class="form-control @error('nama_barang') is-invalid @enderror" placeholder="Kode Barang"
                             required autofocus>
                         <label for="kategoriSet">Nama Barang</label>
@@ -70,8 +72,9 @@
                                 <option value="">Tidak ada kategori</option>
                             @else
                                 @foreach ($DataKategori as $DK)
-                                    <option value="{{ $DK->id_kategori }}">
-                                        {{ $DK->kategori . ' - ' . $DK->satuan }}
+                                    <option value="{{ $DK->id_kategori }}"
+                                        {{ old('id_kategori', $d_barang->id_kategori) == $DK->id_kategori ? 'selected' : '' }}>
+                                        {{ $DK->kategori }} - {{ $DK->satuan }}
                                     </option>
                                 @endforeach
                             @endif
@@ -89,9 +92,10 @@
 
 
 
+
                     {{-- Stok --}}
                     <div class="form-floating mb-3">
-                        <input type="text" name="stok" id="stokSet" value="{{ old('stok') }}"
+                        <input type="text" name="stok" id="stokSet" value="{{ old('stok', $d_barang['stok']) }}"
                             class="form-control @error('stok') is-invalid @enderror" placeholder="stok" required>
                         <label for="stokSet">Stok</label>
 
@@ -104,7 +108,7 @@
 
                     {{-- Harga --}}
                     <div class="form-floating mb-3">
-                        <input type="text" name="harga" id="hargaSet" value="{{ old('harga') }}"
+                        <input type="text" name="harga" id="hargaSet" value="{{ old('harga', $d_barang['harga']) }}"
                             class="form-control @error('harga') is-invalid @enderror" placeholder="harga" required>
                         <label for="hargaSet">Harga</label>
 

@@ -28,6 +28,9 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::get('/data-barang', [BarangController::class, 'PageBarang'])->name('admin.data-barang');
     Route::get('/data-barang/tambah', [BarangController::class, 'PageTambahBarang'])->name('admin.data-barang-tambah');
     Route::post('/data-barang/tambah', [BarangController::class, 'AksiTambahBarang'])->name('admin.data-barang-aksi');
+    Route::get('/data-barang/{id}/edit', [BarangController::class, 'PageEditBarang'])->name('admin.data-barang-edit-page');
+    Route::put('/data-barang/{id}/edit', [BarangController::class, 'AksiBarangEdit'])->name('admin.data-barang-edit-aksi');
+    Route::delete('/barang-hapus/{id}', [BarangController::class, 'BarangDestroy'])->name('admin.data-barang-edit-aksi-delete');
 
     // kategori
     Route::get('/kategori', [KategoriController::class, 'PageKategori'])->name('admin.kategori');
