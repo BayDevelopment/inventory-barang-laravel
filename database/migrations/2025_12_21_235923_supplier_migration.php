@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('tb_supplier', function (Blueprint $table) {
             $table->id('id_supplier');
             $table->string('nama_supplier', 100);
-            $table->string('telp', 20)->nullable();
-            $table->text('alamat')->nullable();
+            $table->string('telp', 20)->unique();
+            $table->text('alamat');
             $table->timestamps();
         });
     }

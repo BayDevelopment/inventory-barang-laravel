@@ -46,6 +46,12 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     // suupplier
     Route::get('data-supplier', [SupplierController::class, 'index'])
         ->name('admin.supplier-data');
+    Route::get('data-supplier/tambah', [SupplierController::class, 'PageTambah'])
+        ->name('admin.supplier-tambah-page');
+    Route::post('data-supplier/tambah', [SupplierController::class, 'AksiTambah'])
+        ->name('admin.supplier-tambah-aksi');
+    Route::get('data-supplier/{id}/edit', [SupplierController::class, 'PageEdit'])
+        ->name('admin.data-supplier-edit-page');
 
     Route::delete('/kategori-hapus/{id}', [KategoriController::class, 'KategoriDestroy'])->name('admin.kategori-aksi-hapus');
 });

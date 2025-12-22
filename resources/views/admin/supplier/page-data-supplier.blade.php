@@ -53,7 +53,7 @@
                         @forelse($d_supplier as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}.</td>
-                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->nama_supplier }}</td>
                                 <td>{{ $item->telp }}</td>
                                 <td>{{ $item->alamat }}</td>
                                 <td>
