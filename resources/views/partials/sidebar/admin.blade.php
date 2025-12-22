@@ -27,7 +27,12 @@
                 <a class="nav-link {{ $navlink === 'Data Kategori' ? 'active' : '' }}"
                     href="{{ url('admin/kategori') }}">
                     <div class="sb-nav-link-icon "><i class="fas fa-tags"></i></div>
-                    Data kategori
+                    Data Kategori
+                </a>
+                <a class="nav-link {{ $navlink === 'Data Supplier' ? 'active' : '' }}"
+                    href="{{ url('admin/data-supplier') }}">
+                    <div class="sb-nav-link-icon "><i class="fa-solid fa-truck"></i></div>
+                    Data Supplier
                 </a>
                 <a class="nav-link {{ $navlink === 'Laporan' ? 'active' : '' }}" href="charts.html">
                     <div class="sb-nav-link-icon "><i class="fas fa-chart-area"></i></div>

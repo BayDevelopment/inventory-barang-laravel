@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 // Dashboard admin
 Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    // barang
     Route::get('/data-barang', [BarangController::class, 'PageBarang'])->name('admin.data-barang');
     Route::get('/data-barang/tambah', [BarangController::class, 'PageTambahBarang'])->name('admin.data-barang-tambah');
     Route::post('/data-barang/tambah', [BarangController::class, 'AksiTambahBarang'])->name('admin.data-barang-aksi');
@@ -40,6 +42,10 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         ->name('admin.kategori-edit');
     Route::put('kategori/{id}', [KategoriController::class, 'KategoriAksiUpdate'])
         ->name('admin.kategori-update');
+
+    // suupplier
+    Route::get('data-supplier', [SupplierController::class, 'index'])
+        ->name('admin.supplier-data');
 
     Route::delete('/kategori-hapus/{id}', [KategoriController::class, 'KategoriDestroy'])->name('admin.kategori-aksi-hapus');
 });
