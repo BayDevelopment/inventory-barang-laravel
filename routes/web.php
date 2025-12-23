@@ -42,6 +42,7 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         ->name('admin.kategori-edit');
     Route::put('kategori/{id}', [KategoriController::class, 'KategoriAksiUpdate'])
         ->name('admin.kategori-update');
+    Route::delete('/kategori-hapus/{id}', [KategoriController::class, 'KategoriDestroy'])->name('admin.kategori-aksi-hapus');
 
     // suupplier
     Route::get('data-supplier', [SupplierController::class, 'index'])
@@ -52,8 +53,10 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         ->name('admin.supplier-tambah-aksi');
     Route::get('data-supplier/{id}/edit', [SupplierController::class, 'PageEdit'])
         ->name('admin.data-supplier-edit-page');
+    Route::put('data-supplier/{id}', [SupplierController::class, 'AksiEdit'])
+        ->name('admin.supplier-edit-aksi');
+    Route::delete('/supplier-hapus/{id}', [SupplierController::class, 'SupplierDestroy'])->name('admin.supplier-aksi-hapus');
 
-    Route::delete('/kategori-hapus/{id}', [KategoriController::class, 'KategoriDestroy'])->name('admin.kategori-aksi-hapus');
 });
 
 // Dashboard user

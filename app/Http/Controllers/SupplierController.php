@@ -13,7 +13,7 @@ class SupplierController extends Controller
 
         // Filter berdasarkan nama supplier
         if ($request->filled('search')) {
-            $query->where('nama_supplier', 'like', '%'.$request->search.'%');
+            $query->where('nama_supplier', 'like', '%' . $request->search . '%');
         }
 
         $D_Supplier = $query->get();
@@ -48,7 +48,49 @@ class SupplierController extends Controller
         SupplierModel::create($validated);
 
         return redirect()
-            ->route('admin.page-tambah-supplier')
+            ->route('admin.supplier-data')
             ->with('success', 'Data Supplier berhasil ditambahkan.');
+    }
+    public function PageEdit($id)
+    {
+        $D_Edit = SupplierModel::findOrFail($id);
+        $data = [
+            'title' => 'Tambah Supplier',
+            'navlink' => 'Tambah Supplier',
+            'd_supplier' => $D_Edit
+        ];
+
+        return view('admin.supplier.page-edit-supplier', $data);
+    }
+
+    public function AksiEdit(Request $request, $id)
+    {
+        $DEdit = SupplierModel::findOrFail($id);
+
+        $validated = $request->validate([
+            'nama_supplier' => 'required|string|max:100',
+            'telp' => 'required|string|max:20|unique:tb_supplier,telp,' . $id . ',id_supplier',
+            'alamat' => 'required|string',
+        ]);
+
+        $DEdit->update($validated);
+
+        return redirect()
+            ->route('admin.supplier-data')
+            ->with('success', 'Data Supplier berhasil diperbarui.');
+    }
+
+    public function SupplierDestroy($id){
+        $DEdit = SupplierModel::findOrFail($id);
+        if(!$DEdit){
+            return redirect()
+            ->route('admin.supplier-data')
+            ->with('error', 'Data Supplier tidak ditemukan.');
+        }
+
+        $DEdit->delete();
+        return redirect()
+            ->back()
+            ->with('success', 'Supplier berhasil dihapus.');
     }
 }

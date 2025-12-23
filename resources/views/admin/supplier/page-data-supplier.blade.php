@@ -61,7 +61,7 @@
                                         href="{{ route('admin.data-supplier-edit-page', $item->id_supplier) }}"
                                         role="button" title="Edit"><i class="fa-solid fa-file-pen"></i></a>
                                     <form id="delete-supplier-form-{{ $item->id_supplier }}"
-                                        action="{{ route('admin.data-barang-edit-aksi-delete', $item->id_supplier) }}"
+                                        action="{{ route('admin.supplier-aksi-hapus', $item->id_supplier) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
@@ -100,7 +100,7 @@
                 reverseButtons: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('delete-barang-form-' + id).submit();
+                    document.getElementById('delete-supplier-form-' + id).submit();
                 }
             });
         }
