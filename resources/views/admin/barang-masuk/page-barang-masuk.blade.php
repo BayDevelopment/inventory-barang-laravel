@@ -7,7 +7,7 @@
             <li class="breadcrumb-item active">{{ $navlink }}</li>
         </ol>
         <div class="justify-content-start py-2">
-            <a href="{{ url('admin/data-supplier/tambah') }}" class="btn btn-success btn-sm py-2"><span><i
+            <a href="{{ url('admin/data-barang-masuk/tambah') }}" class="btn btn-success btn-sm py-2"><span><i
                         class="fa-solid fa-file-circle-plus"></i></span>
                 Tambah</a>
         </div>
@@ -20,7 +20,7 @@
 
                         {{-- Search --}}
                         <div class="col-md-4">
-                            <input type="text" name="search" class="form-control" placeholder="Cari nama supplier..."
+                            <input type="text" name="search" class="form-control" placeholder="Cari barang masuk..."
                                 value="{{ request('search') }}">
                         </div>
 
@@ -43,31 +43,37 @@
                     <thead class="table-light">
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
-                            <th>Telp</th>
-                            <th>Alamat</th>
+                            <th>Kode Barang</th>
+                            <th>Kategori</th>
+                            <th>Tanggal Masuk</th>
+                            <th>Jumlah</th>
+                            <th>Harga</th>
+                            <th>Keterangan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($d_supplier as $item)
+                        @forelse($d_barangmasuk as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}.</td>
-                                <td>{{ $item->nama_supplier }}</td>
-                                <td>{{ $item->telp }}</td>
-                                <td>{{ $item->alamat }}</td>
+                                <td>{{ $item->kode_barang }}</td>
+                                <td>{{ $item->barang->kategori }}</td>
+                                <td>{{ $item->tanggal_masuk }}</td>
+                                <td>{{ $item->jumlah_masuk }}</td>
+                                <td>{{ number_format($item->harga_beli, 0, ',', '.') }}</td>
+                                <td>{{ $item->keterangan }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
-                                        href="{{ route('admin.data-supplier-edit-page', $item->id_supplier) }}"
+                                        href="{{ route('admin.data-barang-masuk-edit-page', $item->id_barang_masuk) }}"
                                         role="button" title="Edit"><i class="fa-solid fa-file-pen"></i></a>
-                                    <form id="delete-supplier-form-{{ $item->id_supplier }}"
-                                        action="{{ route('admin.supplier-aksi-hapus', $item->id_supplier) }}"
+                                    <form id="delete-data-barang-masuk-form-{{ $item->id_barang_masuk }}"
+                                        action="{{ route('admin.barang-masuk-aksi-hapus', $item->id_barang_masuk) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
 
                                         <button type="button" class="btn btn-danger btn-sm"
-                                            onclick="confirmDeleteSupplier({{ $item->id_supplier }})" title="Hapus">
+                                            onclick="confirmDeleteBMasuk({{ $item->id_barang_masuk }})" title="Hapus">
                                             <i class="fa-solid fa-file-circle-xmark"></i>
                                         </button>
                                     </form>
@@ -75,8 +81,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center text-muted">
-                                    Data barang tidak ditemukan
+                                <td colspan="8" class="text-center text-muted">
+                                    Data Barang Masuk tidak ditemukan
                                 </td>
                             </tr>
                         @endforelse
@@ -84,7 +90,7 @@
                 </table>
                 <!-- Pagination -->
                 <div class="d-flex justify-content-end mt-3">
-                    {{ $d_supplier->links() }}
+                    {{ $d_barangmasuk->links() }}
                 </div>
             </div>
         </div>
@@ -93,7 +99,7 @@
 @endsection
 @section('scripts')
     <script>
-        function confirmDeleteSupplier(id) {
+        function confirmDeleteBMasuk(id) {
             Swal.fire({
                 title: 'Apakah Anda yakin?',
                 text: 'Data supplier akan dihapus permanen!',
@@ -104,7 +110,7 @@
                 reverseButtons: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('delete-supplier-form-' + id).submit();
+                    document.getElementById('delete-data-barang-masuk-form-' + id).submit();
                 }
             });
         }

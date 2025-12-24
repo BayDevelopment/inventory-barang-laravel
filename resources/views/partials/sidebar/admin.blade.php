@@ -13,7 +13,7 @@
                     Data Barang
                 </a>
 
-                <a class="nav-link {{ $navlink === 'Barang Masuk' ? 'active' : '' }}" href="index.html">
+                <a class="nav-link {{ $navlink === 'Barang Masuk' ? 'active' : '' }}" href="{{ url('admin/data-barang-masuk') }}">
                     <div class="sb-nav-link-icon "><i class="fas fa-arrow-down"></i></div>
                     Barang Masuk
                 </a>

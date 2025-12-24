@@ -16,7 +16,7 @@ class SupplierController extends Controller
             $query->where('nama_supplier', 'like', '%' . $request->search . '%');
         }
 
-        $D_Supplier = $query->get();
+        $D_Supplier = $query->paginate(5)->withQueryString();
 
         $data = [
             'title' => 'Data Supplier',

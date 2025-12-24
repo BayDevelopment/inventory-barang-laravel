@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserDashboardController;
@@ -56,6 +57,14 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::put('data-supplier/{id}', [SupplierController::class, 'AksiEdit'])
         ->name('admin.supplier-edit-aksi');
     Route::delete('/supplier-hapus/{id}', [SupplierController::class, 'SupplierDestroy'])->name('admin.supplier-aksi-hapus');
+
+    // barang masuk
+        Route::get('data-barang-masuk', [BarangMasukController::class, 'index'])
+        ->name('admin.barang-masuk-data');
+        Route::get('data-barang-masuk/tambah', [BarangMasukController::class, 'PageTambahBMasuk'])
+        ->name('admin.barang-masuk-page-tambah');
+        Route::post('data-barang-masuk/tambah', [BarangMasukController::class, 'AksiTambahBMasuk'])
+        ->name('admin.barang-masuk-aksi-tambah');
 
 });
 
