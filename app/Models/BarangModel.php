@@ -19,4 +19,8 @@ class BarangModel extends Model
         // satu barang hanya punya 1 kategori
         return $this->belongsTo(KategoriModel::class, 'id_kategori', 'id_kategori');
     }
+
+    public function BarangMasukById(){
+        return $this->hasMany(BarangMasuk::class, 'id_barang','id_barang');
+    }
 }

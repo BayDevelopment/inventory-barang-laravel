@@ -13,27 +13,25 @@ return new class extends Migration
     {
         Schema::create('tb_barang_masuk', function (Blueprint $table) {
             $table->id('id_barang_masuk');
+            $table->unsignedBigInteger('id_barang');
 
-            $table->string('kode_barang', 20);
             $table->unsignedBigInteger('id_supplier');
 
             $table->dateTime('tanggal_masuk');
             $table->integer('jumlah_masuk');
             $table->decimal('harga_beli', 12, 2)->nullable();
             $table->string('keterangan', 255)->nullable();
-
             $table->timestamps();
-
-            // Foreign Key
-            $table->foreign('kode_barang')
-                ->references('kode_barang')
-                ->on('tb_barang')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
 
             $table->foreign('id_supplier')
                 ->references('id_supplier')
                 ->on('tb_supplier')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+
+            $table->foreign('id_barang')
+                ->references('id_barang')
+                ->on('tb_barang')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
         });

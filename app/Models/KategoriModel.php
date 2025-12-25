@@ -24,4 +24,12 @@ class KategoriModel extends Model
             'id_kategori'  // PK di tb_kategori
         );
     }
+    // public function barangMasuk()
+    // {
+    //     return $this->hasMany(
+    //         BarangMasuk::class,
+    //         'id_kategori', // FK di tb_barang
+    //         'id_kategori'  // PK di tb_kategori
+    //     );
+    // }
 }

@@ -59,12 +59,15 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::delete('/supplier-hapus/{id}', [SupplierController::class, 'SupplierDestroy'])->name('admin.supplier-aksi-hapus');
 
     // barang masuk
-        Route::get('data-barang-masuk', [BarangMasukController::class, 'index'])
+    Route::get('data-barang-masuk', [BarangMasukController::class, 'index'])
         ->name('admin.barang-masuk-data');
-        Route::get('data-barang-masuk/tambah', [BarangMasukController::class, 'PageTambahBMasuk'])
+    Route::get('data-barang-masuk/tambah', [BarangMasukController::class, 'PageTambahBMasuk'])
         ->name('admin.barang-masuk-page-tambah');
-        Route::post('data-barang-masuk/tambah', [BarangMasukController::class, 'AksiTambahBMasuk'])
+    Route::post('data-barang-masuk/tambah', [BarangMasukController::class, 'AksiTambahBMasuk'])
         ->name('admin.barang-masuk-aksi-tambah');
+    Route::get('data-barang-masuk/edit', [BarangMasukController::class, 'PageEditBMasuk'])
+        ->name('admin.data-barang-masuk-edit-page');
+    Route::delete('/data-barang-masuk-hapus/{id}', [SupplierController::class, 'BarangMasukDestroy'])->name('admin.barang-masuk-aksi-hapus');
 
 });
 

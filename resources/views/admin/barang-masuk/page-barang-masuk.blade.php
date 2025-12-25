@@ -20,8 +20,21 @@
 
                         {{-- Search --}}
                         <div class="col-md-4">
-                            <input type="text" name="search" class="form-control" placeholder="Cari barang masuk..."
-                                value="{{ request('search') }}">
+                            <input type="text" name="search" class="form-control"
+                                placeholder="Cari barang / kode / keterangan..." value="{{ request('search') }}">
+                        </div>
+
+                        {{-- Dropdown Kategori --}}
+                        <div class="col-md-4">
+                            <select name="kategori" class="form-select">
+                                <option value="">-- Semua Kategori --</option>
+                                @foreach ($kategoriList as $kategori)
+                                    <option value="{{ $kategori->id_kategori }}"
+                                        {{ request('kategori') == $kategori->id_kategori ? 'selected' : '' }}>
+                                        {{ $kategori->kategori }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         {{-- Button --}}
@@ -31,8 +44,16 @@
                             </button>
                         </div>
 
+                        {{-- Reset --}}
+                        <div class="col-md-2 d-grid">
+                            <a href="{{ route('admin.barang-masuk-data') }}" class="btn btn-secondary">
+                                Reset
+                            </a>
+                        </div>
+
                     </div>
                 </form>
+
             </div>
         </div>
 
@@ -56,12 +77,17 @@
                         @forelse($d_barangmasuk as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}.</td>
-                                <td>{{ $item->kode_barang }}</td>
-                                <td>{{ $item->barang->kategori }}</td>
+                                <td>{{ $item->barangById->kode_barang }}</td>
+                                <td>{{ $item->barangById->kategori->kategori }}</td>
                                 <td>{{ $item->tanggal_masuk }}</td>
                                 <td>{{ $item->jumlah_masuk }}</td>
                                 <td>{{ number_format($item->harga_beli, 0, ',', '.') }}</td>
-                                <td>{{ $item->keterangan }}</td>
+                                <td>
+                                    {!! $item->keterangan
+                                        ? e($item->keterangan)
+                                        : '<span class="badge text-bg-secondary">Tidak ada Keterangan</span>' !!}
+                                </td>
+
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('admin.data-barang-masuk-edit-page', $item->id_barang_masuk) }}"
