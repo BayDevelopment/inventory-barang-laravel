@@ -46,7 +46,7 @@
                                 <option value="">Tidak ada kategori</option>
                             @else
                                 @foreach ($DBarang as $DK)
-                                    <option value="{{ $DK->id_barang }}">
+                                    <option value="{{ $DK->id_barang }}" data-harga="{{ $DK->harga }}">
                                         {{ $DK->kode_barang . ' - ' . $DK->nama_barang }}
                                     </option>
                                 @endforeach
@@ -93,9 +93,9 @@
 
                     {{-- Tanggal Masuk --}}
                     <div class="form-floating mb-3">
-                        <input type="date" name="tanggal_masuk" id="tanggalMasukSet" value="{{ old('tanggal_masuk') }}"
-                            class="form-control @error('tanggal_masuk') is-invalid @enderror" placeholder="Tanggal Masuk"
-                            required>
+                        <input type="datetime-local" name="tanggal_masuk" id="tanggalMasukSet"
+                            value="{{ old('tanggal_masuk', now('Asia/Jakarta')->format('Y-m-d\TH:i')) }}"
+                            class="form-control @error('tanggal_masuk') is-invalid @enderror" required>
                         <label for="tanggalMasukSet">Tanggal Masuk</label>
 
                         @error('tanggal_masuk')
@@ -104,6 +104,7 @@
                             </div>
                         @enderror
                     </div>
+
 
                     {{-- Jumlah --}}
                     <div class="form-floating mb-3">
@@ -160,4 +161,17 @@
         </div>
 
     </div>
+@endsection
+@section('scripts')
+    <script>
+        const selectBarang = document.getElementById('barangIdSet');
+        const inputHarga = document.getElementById('hargaBeliSet');
+
+        if (selectBarang && inputHarga) {
+            selectBarang.addEventListener('change', function() {
+                const opt = this.options[this.selectedIndex];
+                inputHarga.value = opt?.dataset?.harga || '';
+            });
+        }
+    </script>
 @endsection

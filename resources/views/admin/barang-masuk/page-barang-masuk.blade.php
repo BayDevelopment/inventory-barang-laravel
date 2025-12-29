@@ -128,7 +128,7 @@
         function confirmDeleteBMasuk(id) {
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                text: 'Data supplier akan dihapus permanen!',
+                text: 'Data Barang Masuk akan dihapus permanen!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, hapus',

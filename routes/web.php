@@ -65,9 +65,11 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         ->name('admin.barang-masuk-page-tambah');
     Route::post('data-barang-masuk/tambah', [BarangMasukController::class, 'AksiTambahBMasuk'])
         ->name('admin.barang-masuk-aksi-tambah');
-    Route::get('data-barang-masuk/edit', [BarangMasukController::class, 'PageEditBMasuk'])
+    Route::get('data-barang-masuk/{id}/edit', [BarangMasukController::class, 'PageEditBMasuk'])
         ->name('admin.data-barang-masuk-edit-page');
-    Route::delete('/data-barang-masuk-hapus/{id}', [SupplierController::class, 'BarangMasukDestroy'])->name('admin.barang-masuk-aksi-hapus');
+    Route::put('data-barang-masuk/{id}/edit', [BarangMasukController::class, 'AksiEditBmasuk'])
+        ->name('admin.barang-masuk-aksi-edit');
+    Route::delete('/data-barang-masuk-hapus/{id}', [BarangMasukController::class, 'BarangMasukDestroy'])->name('admin.barang-masuk-aksi-hapus');
 
 });
 
