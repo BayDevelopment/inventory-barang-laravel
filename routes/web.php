@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\SupplierController;
@@ -70,6 +71,10 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::put('data-barang-masuk/{id}/edit', [BarangMasukController::class, 'AksiEditBmasuk'])
         ->name('admin.barang-masuk-aksi-edit');
     Route::delete('/data-barang-masuk-hapus/{id}', [BarangMasukController::class, 'BarangMasukDestroy'])->name('admin.barang-masuk-aksi-hapus');
+
+    // barang keluar
+    Route::get('data-barang-keluar', [BarangKeluarController::class, 'index'])
+        ->name('admin.barang-keluar-data');
 
 });
 
