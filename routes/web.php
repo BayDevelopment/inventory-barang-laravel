@@ -75,6 +75,15 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     // barang keluar
     Route::get('data-barang-keluar', [BarangKeluarController::class, 'index'])
         ->name('admin.barang-keluar-data');
+    Route::get('data-barang-keluar/tambah', [BarangKeluarController::class, 'PageTambahBKeluar'])
+        ->name('admin.barang-keluar-page-tambah');
+    Route::post('data-barang-keluar/tambah', [BarangKeluarController::class, 'AksiTambahBKeluar'])
+        ->name('admin.barang-keluar-aksi-tambah');
+    Route::get('data-barang-keluar/{id}/edit', [BarangKeluarController::class, 'PageEditBKeluar'])
+        ->name('admin.data-barang-keluar-edit-page');
+    Route::put('data-barang-keluar/{id}/edit', [BarangKeluarController::class, 'AksiEditBKeluar'])
+        ->name('admin.barang-keluar-aksi-edit');
+    Route::delete('/data-barang-keluar-hapus/{id}', [BarangKeluarController::class, 'BarangKeluarDestroy'])->name('admin.barang-keluar-aksi-hapus');
 
 });
 

@@ -66,7 +66,7 @@
                             <th>No</th>
                             <th>Kode Barang</th>
                             <th>Kategori</th>
-                            <th>Tanggal Masuk</th>
+                            <th>Tanggal Keluar</th>
                             <th>Jumlah</th>
                             <th>Harga</th>
                             <th>Keterangan</th>
@@ -74,13 +74,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($d_barangmasuk as $item)
+                        @forelse($d_barangkeluar as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}.</td>
                                 <td>{{ $item->barangById->kode_barang }}</td>
                                 <td>{{ $item->barangById->kategori->kategori }}</td>
-                                <td>{{ $item->tanggal_masuk }}</td>
-                                <td>{{ $item->jumlah_masuk }}</td>
+                                <td>{{ $item->tanggal_keluar }}</td>
+                                <td>{{ $item->jumlah_keluar }}</td>
                                 <td>{{ number_format($item->harga_beli, 0, ',', '.') }}</td>
                                 <td>
                                     {!! $item->keterangan
@@ -90,16 +90,16 @@
 
                                 <td>
                                     <a class="btn btn-primary btn-sm"
-                                        href="{{ route('admin.data-barang-keluar-edit-page', $item->id_barang_masuk) }}"
+                                        href="{{ route('admin.data-barang-keluar-edit-page', $item->id_barang_keluar) }}"
                                         role="button" title="Edit"><i class="fa-solid fa-file-pen"></i></a>
-                                    <form id="delete-data-barang-keluar-form-{{ $item->id_barang_masuk }}"
-                                        action="{{ route('admin.barang-keluar-aksi-hapus', $item->id_barang_masuk) }}"
+                                    <form id="delete-data-barang-keluar-form-{{ $item->id_barang_keluar }}"
+                                        action="{{ route('admin.barang-keluar-aksi-hapus', $item->id_barang_keluar) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
 
                                         <button type="button" class="btn btn-danger btn-sm"
-                                            onclick="confirmDeleteBKeluar({{ $item->id_barang_masuk }})" title="Hapus">
+                                            onclick="confirmDeleteBKeluar({{ $item->id_barang_keluar }})" title="Hapus">
                                             <i class="fa-solid fa-file-circle-xmark"></i>
                                         </button>
                                     </form>
@@ -116,7 +116,7 @@
                 </table>
                 <!-- Pagination -->
                 <div class="d-flex justify-content-end mt-3">
-                    {{ $d_barangmasuk->links() }}
+                    {{ $d_barangkeluar->links() }}
                 </div>
             </div>
         </div>
