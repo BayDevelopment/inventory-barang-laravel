@@ -6,6 +6,8 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LaporanBarangKeluar;
+use App\Http\Controllers\LaporanBarangMasuk;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +86,13 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::put('data-barang-keluar/{id}/edit', [BarangKeluarController::class, 'AksiEditBKeluar'])
         ->name('admin.barang-keluar-aksi-edit');
     Route::delete('/data-barang-keluar-hapus/{id}', [BarangKeluarController::class, 'BarangKeluarDestroy'])->name('admin.barang-keluar-aksi-hapus');
+
+    // laporan
+     Route::get('laporan/barang-masuk', [LaporanBarangMasuk::class, 'index'])
+        ->name('admin.laporan.masuk');
+     Route::get('laporan/barang-keluar', [LaporanBarangKeluar::class, 'index'])
+        ->name('admin.laporan.keluar');
+
 
 });
 
