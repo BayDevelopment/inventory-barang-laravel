@@ -60,6 +60,16 @@
 
         {{-- TABLE DATA BARANG --}}
         <div class="card">
+            <!-- Card Header -->
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Table Barang Masuk</h5>
+
+                <a href="{{ route('admin.laporan.masuk-pdf') }}" class="btn btn-danger btn-sm" target="_blank">
+                     <i class="fas fa-file-pdf"></i> Print PDF
+                </a>
+            </div>
+
+            <!-- Card Body -->
             <div class="card-body table-responsive">
                 <table class="table table-bordered table-hover align-middle text-center">
                     <thead class="table-light">
@@ -90,19 +100,21 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center text-muted">
+                                <td colspan="7" class="text-center text-muted">
                                     Data Barang Masuk tidak ditemukan
                                 </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
+
                 <!-- Pagination -->
                 <div class="d-flex justify-content-end mt-3">
                     {{ $d_barangmasuk->links() }}
                 </div>
             </div>
         </div>
+
 
     </div>
 @endsection

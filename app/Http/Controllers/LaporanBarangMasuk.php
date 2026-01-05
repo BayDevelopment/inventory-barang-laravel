@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 use App\Models\KategoriModel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanBarangMasuk extends Controller
 {
@@ -52,5 +53,15 @@ class LaporanBarangMasuk extends Controller
             'd_barangmasuk' => $DBarangMasuk,
             'kategoriList' => KategoriModel::all(),
         ]);
+    }
+
+    public function printPDF(){
+        $Data = BarangMasuk::with(['supplierById','barangById'])->get();
+
+        $pdf =Pdf::loadView('admin.laporan.laporan-barang-masuk-pdf',[
+            'data' => $Data
+        ]);
+
+        return $pdf->stream('laporan-barang-masuk-pdf.pdf');
     }
 }

@@ -88,12 +88,16 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::delete('/data-barang-keluar-hapus/{id}', [BarangKeluarController::class, 'BarangKeluarDestroy'])->name('admin.barang-keluar-aksi-hapus');
 
     // laporan
-     Route::get('laporan/barang-masuk', [LaporanBarangMasuk::class, 'index'])
+    Route::get('laporan/barang-masuk', [LaporanBarangMasuk::class, 'index'])
         ->name('admin.laporan.masuk');
-     Route::get('laporan/barang-keluar', [LaporanBarangKeluar::class, 'index'])
+    Route::get('laporan/barang-keluar', [LaporanBarangKeluar::class, 'index'])
         ->name('admin.laporan.keluar');
-
-
+    // laporan barang masuk pdf
+    Route::get('laporan/barang-masuk/pdf', [LaporanBarangMasuk::class, 'printPDF'])
+        ->name('admin.laporan.masuk-pdf');
+    // laporan barang keluar pdf
+    Route::get('laporan/barang-keluar/pdf', [LaporanBarangKeluar::class, 'printPDF'])
+        ->name('admin.laporan.keluar-pdf');
 });
 
 // Dashboard user
