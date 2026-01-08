@@ -98,6 +98,15 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     // laporan barang keluar pdf
     Route::get('laporan/barang-keluar/pdf', [LaporanBarangKeluar::class, 'printPDF'])
         ->name('admin.laporan.keluar-pdf');
+
+
+    // Pengaturan 
+    Route::get('setting', [AdminDashboardController::class, 'settings'])
+        ->name('admin.setting');
+    Route::post('setting/profile', [AdminDashboardController::class, 'settingsProfileAksi'])
+        ->name('admin.setting-profile');
+    Route::post('setting/security', [AdminDashboardController::class, 'settingsPasswordAksi'])
+        ->name('admin.setting-security');
 });
 
 // Dashboard user

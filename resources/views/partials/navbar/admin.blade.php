@@ -62,14 +62,15 @@
                     <hr class="dropdown-divider">
                 </li>
                 <!-- Menu items -->
-                <li><a class="dropdown-item" href="#!">Pengaturan</a></li>
-                <li><a class="dropdown-item" href="#!">Aktivitas</a></li>
+                <li><a class="dropdown-item <?= $navlink == 'Pengaturan' ? 'active' : '' ?>"
+                        href="{{ route('admin.setting') }}"><span><i class="fa-solid fa-gear"></i></span> Pengaturan</a></li>
+                {{-- <li><a class="dropdown-item" href="#!">Aktivitas</a></li>
                 <li>
                     <hr class="dropdown-divider" />
-                </li>
+                </li> --}}
                 <li>
                     <a href="#" class="dropdown-item" onclick="confirmLogout(event)">
-                        Logout
+                        <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span> Logout
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
