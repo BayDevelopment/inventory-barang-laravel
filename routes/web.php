@@ -107,6 +107,19 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         ->name('admin.setting-profile');
     Route::post('setting/security', [AdminDashboardController::class, 'settingsPasswordAksi'])
         ->name('admin.setting-security');
+
+    // pengguna
+    Route::get('pengguna', [AdminDashboardController::class, 'PagePengguna'])
+        ->name('admin.pengguna');
+    Route::get('pengguna/tambah', [AdminDashboardController::class, 'PagePenggunaTambah'])
+        ->name('admin.pengguna-tambah');
+    Route::post('pengguna/tambah', [AdminDashboardController::class, 'AksiPenggunaTambah'])
+        ->name('admin.aksi-pengguna-tambah');
+    Route::get('pengguna/{id}/edit', [AdminDashboardController::class, 'PagePenggunaEdit'])
+        ->name('admin.pengguna-edit');
+    Route::post('pengguna/{id}/edit', [AdminDashboardController::class, 'AksiPenggunaEdit'])
+        ->name('admin.aksi-pengguna-edit');
+    Route::delete('pengguna/{id}/delete', [AdminDashboardController::class, 'PenggunaDestroy'])->name('admin.aksi-pengguna-hapus');
 });
 
 // Dashboard user

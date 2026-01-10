@@ -72,7 +72,7 @@
                         <div class="fs-3">{{ $CountPengguna }}</div>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <a class="small text-dark stretched-link" href="#">View Details</a>
+                        <a class="small text-dark stretched-link" href="{{ route('admin.pengguna') }}">View Details</a>
                         <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>

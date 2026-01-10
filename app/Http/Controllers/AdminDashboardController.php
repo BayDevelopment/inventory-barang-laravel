@@ -127,4 +127,28 @@ class AdminDashboardController extends Controller
 
         return redirect()->back()->with('success', 'Password berhasil diperbarui.');
     }
+
+    public function PagePengguna(Request $request)
+    {
+        $query = User::query();
+
+        // Jika ada input search
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        // Pagination + keep query string
+        $pengguna = $query->paginate(5)->withQueryString();
+
+        return view('admin.pengguna.page-pengguna', [
+            'title'      => 'Pengguna | Inventory Barang',
+            'navlink'    => 'Pengguna',
+            'd_pengguna' => $pengguna
+        ]);
+    }
 }
