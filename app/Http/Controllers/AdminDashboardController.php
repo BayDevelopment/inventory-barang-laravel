@@ -57,9 +57,12 @@ class AdminDashboardController extends Controller
 
     public function Settings()
     {
+        $DataUser = User::where('id', '!=', Auth::id())->get();
+
         $data = [
-            'title' => 'Pengaturan | Inventory Barang',
+            'title'   => 'Pengaturan | Inventory Barang',
             'navlink' => 'Pengaturan',
+            'd_User'  => $DataUser
         ];
 
         return view('settings.page-pengaturan-all', $data);
@@ -150,5 +153,69 @@ class AdminDashboardController extends Controller
             'navlink'    => 'Pengguna',
             'd_pengguna' => $pengguna
         ]);
+    }
+
+    // User Setting
+    public function showUserSett($id)
+    {
+        $user = User::findOrFail($id);
+
+        $users = User::where('id', '!=', $user->id)
+            ->orderBy('name')
+            ->paginate(10); // ← jumlah per halaman
+
+        return view('settings.view-user-set', [
+            'title' => 'Detail Pengguna',
+            'navlink' => 'Detail Pengguna | Inventory Barang',
+            'user'  => $user,
+            'users' => $users
+        ]);
+    }
+    public function UserSetEdit($id)
+    {
+        $user = User::findOrFail($id);
+        // Ambil user lain untuk daftar kanan
+        $users = User::where('id', '!=', $user->id)->paginate(10);
+
+        return view('settings.edit-user-set', [
+            'title' => 'Edit Pengguna',
+            'navlink' => 'Edit Pengguna',
+            'user' => $user,
+            'users' => $users
+        ]);
+    }
+    public function updateUserSet(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Validasi input
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id),
+            ],
+            'role' => 'required|in:admin,user',
+            'is_active' => 'required|boolean',
+            'password' => 'nullable|string|min:8|confirmed', // optional, harus match password_confirmation
+        ]);
+
+        // Update data dasar
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = $request->role;
+        $user->is_active = $request->is_active;
+
+        // Update password hanya jika diisi
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.setting', $user->id)
+            ->with('success', 'Data pengguna berhasil diperbarui.');
     }
 }

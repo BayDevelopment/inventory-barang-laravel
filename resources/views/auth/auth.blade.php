@@ -97,7 +97,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- ERROR VALIDASI --}}
-    @if ($errors->any() && !session('login_error'))
+    @if ($errors->any() && !session('error'))
         <script>
             Swal.fire({
                 toast: true,
@@ -113,14 +113,14 @@
     @endif
 
     {{-- LOGIN GAGAL --}}
-    @if (session('login_error'))
+    @if (session('error'))
         <script>
             Swal.fire({
                 toast: true,
                 position: 'top-end',
                 icon: 'error',
                 title: 'Login gagal',
-                text: '{{ session('login_error') }}',
+                text: '{{ session('error') }}',
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true
@@ -129,13 +129,13 @@
     @endif
 
     {{-- STATUS / SUCCESS --}}
-    @if (session('status'))
+    @if (session('error'))
         <script>
             Swal.fire({
                 toast: true,
                 position: 'top-end',
-                icon: 'success',
-                title: '{{ session('status') }}',
+                icon: 'warning',
+                title: '{{ session('error') }}',
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true

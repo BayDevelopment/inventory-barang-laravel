@@ -107,6 +107,14 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         ->name('admin.setting-profile');
     Route::post('setting/security', [AdminDashboardController::class, 'settingsPasswordAksi'])
         ->name('admin.setting-security');
+    Route::get('setting/{id}/show', [AdminDashboardController::class, 'showUserSett'])
+        ->name('admin.setting-show');
+    Route::get('setting/{id}/edit', [AdminDashboardController::class, 'UserSetEdit'])
+        ->name('admin.setting-edit');
+    Route::put('setting/{id}/edit', [AdminDashboardController::class, 'updateUserSet'])
+        ->name('admin.setting-update');
+    Route::get('setting/{id}/destroy', [AdminDashboardController::class, 'UserSetDestroy'])
+        ->name('admin.setting-destroy');
 
     // pengguna
     Route::get('pengguna', [AdminDashboardController::class, 'PagePengguna'])
