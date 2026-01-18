@@ -61,7 +61,7 @@ class UserDashboardController extends Controller
             'navlink' => 'Pengaturan',
         ];
 
-        return view('settings.page-pengaturan-all', $data);
+        return view('users.settings.page-pengaturan-all', $data);
     }
     public function settingsProfileAksi(Request $request)
     {

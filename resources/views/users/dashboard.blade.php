@@ -1,6 +1,6 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
-@section('content_admin')
+@section('content_user')
     <div class="container-fluid px-4">
 
         {{-- Header --}}
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{{ route('admin.data-barang') }}" class="text-decoration-none small">
+                        <a href="{{ route('user.data-barang') }}" class="text-decoration-none small">
                             Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{{ route('admin.barang-masuk-data') }}" class="text-decoration-none small">
+                        <a href="#" class="text-decoration-none small">
                             Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="{{ route('admin.barang-keluar-data') }}" class="text-decoration-none small">
+                        <a href="#" class="text-decoration-none small">
                             Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a class="small text-decoration-none" href="{{ route('admin.pengguna') }}">
+                        <a class="small text-decoration-none" href="#">
                             View Details <i class="fas fa-arrow-right ms-1"></i>
                         </a>
                     </div>

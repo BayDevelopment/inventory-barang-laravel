@@ -52,7 +52,7 @@ class AuthController extends Controller
 
         // 6. LOGIN GAGAL
         return back()
-            ->with('login_error', 'Email atau password salah.')
+            ->with('error', 'Email atau password salah.')
             ->onlyInput('email');
 
     }

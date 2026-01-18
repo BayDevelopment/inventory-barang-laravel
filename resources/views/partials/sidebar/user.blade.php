@@ -26,16 +26,20 @@
                 </a>
 
                 <div class="sb-sidenav-menu-heading">Addons</div>
-                <a class="nav-link {{ $navlink === 'Data Kategori' ? 'active' : '' }}"
-                    href="{{ url('user/kategori') }}">
-                    <div class="sb-nav-link-icon "><i class="fas fa-tags"></i></div>
-                    Data Kategori
-                </a>
-                <a class="nav-link {{ $navlink === 'Data Supplier' ? 'active' : '' }}"
-                    href="{{ url('user/data-supplier') }}">
-                    <div class="sb-nav-link-icon "><i class="fa-solid fa-truck"></i></div>
-                    Data Supplier
-                </a>
+                @if (Auth::check() && Auth::user()->role === 'admin')
+                    <a class="nav-link {{ $navlink === 'Data Kategori' ? 'active' : '' }}"
+                        href="{{ url('user/kategori') }}">
+                        <div class="sb-nav-link-icon "><i class="fas fa-tags"></i></div>
+                        Data Kategori
+                    </a>
+                    <a class="nav-link {{ $navlink === 'Data Supplier' ? 'active' : '' }}"
+                        href="{{ url('user/data-supplier') }}">
+                        <div class="sb-nav-link-icon "><i class="fa-solid fa-truck"></i></div>
+                        Data Supplier
+                    </a>
+                @endif
+
+                {{-- laporan   --}}
                 <a class="nav-link collapsed {{ in_array($navlink, ['laporan_masuk', 'laporan_keluar']) ? 'active' : '' }}"
                     href="#" data-bs-toggle="collapse" data-bs-target="#collapseLaporan" aria-expanded="false"
                     aria-controls="collapseLaporan">
@@ -55,7 +59,7 @@
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link {{ $navlink === 'laporan_masuk' ? 'active' : '' }}"
                             href="{{ route('user.laporan.masuk') }}">
-                            <div class="sb-nav-link-icon ">
+                            <div class="sb-nav-link-icon">
                                 <i class="fas fa-arrow-down"></i>
                             </div>
                             Barang Masuk
@@ -63,14 +67,13 @@
 
                         <a class="nav-link {{ $navlink === 'laporan_keluar' ? 'active' : '' }}"
                             href="{{ route('user.laporan.keluar') }}">
-                            <div class="sb-nav-link-icon ">
+                            <div class="sb-nav-link-icon">
                                 <i class="fas fa-arrow-up"></i>
                             </div>
                             Barang Keluar
                         </a>
                     </nav>
                 </div>
-
             </div>
         </div>
         <div class="sb-sidenav-footer text-uppercase">

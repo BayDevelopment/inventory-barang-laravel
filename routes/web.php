@@ -133,4 +133,40 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
 // Dashboard user
 Route::middleware(['role:user'])->prefix('user')->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+
+    // data barang
+    Route::get('/data-barang', [BarangController::class, 'PageBarang'])->name('user.data-barang');
+    // data barang masuk
+    Route::get('data-barang-masuk', [BarangMasukController::class, 'index'])
+        ->name('user.barang-masuk-data');
+    Route::get('data-barang-masuk/tambah', [BarangMasukController::class, 'PageTambahBMasuk'])
+        ->name('user.barang-masuk-page-tambah');
+    Route::post('data-barang-masuk/tambah', [BarangMasukController::class, 'AksiTambahBMasuk'])
+        ->name('user.barang-masuk-aksi-tambah');
+    // data barang keluar
+    Route::get('data-barang-keluar', [BarangKeluarController::class, 'index'])
+        ->name('user.barang-keluar-data');
+    Route::get('data-barang-keluar/tambah', [BarangKeluarController::class, 'PageTambahBKeluar'])
+        ->name('user.barang-keluar-page-tambah');
+    Route::post('data-barang-keluar/tambah', [BarangKeluarController::class, 'AksiTambahBKeluar'])
+        ->name('user.barang-keluar-aksi-tambah');
+
+    // laporan
+    Route::get('laporan/barang-masuk', [LaporanBarangMasuk::class, 'index'])
+        ->name('user.laporan.masuk');
+    Route::get('laporan/barang-keluar', [LaporanBarangKeluar::class, 'index'])
+        ->name('user.laporan.keluar');
+    // laporan barang masuk pdf
+    Route::get('laporan/barang-masuk/pdf', [LaporanBarangMasuk::class, 'printPDF'])
+        ->name('user.laporan.masuk-pdf');
+    // laporan barang keluar pdf
+    Route::get('laporan/barang-keluar/pdf', [LaporanBarangKeluar::class, 'printPDF'])
+        ->name('user.laporan.keluar-pdf');
+    // pengguna setting
+    Route::get('setting', [UserDashboardController::class, 'settings'])
+        ->name('user.setting');
+    Route::post('setting/profile', [UserDashboardController::class, 'settingsProfileAksi'])
+        ->name('user.setting-profile');
+    Route::post('setting/security', [UserDashboardController::class, 'settingsPasswordAksi'])
+        ->name('user.setting-security');
 });

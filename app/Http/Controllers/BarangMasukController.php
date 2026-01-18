@@ -7,6 +7,7 @@ use App\Models\BarangModel;
 use App\Models\KategoriModel;
 use App\Models\SupplierModel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +20,6 @@ class BarangMasukController extends Controller
             'supplierById',
         ]);
 
-        // 🔎 SEARCH
         if ($request->filled('search')) {
             $search = $request->search;
 
@@ -32,7 +32,6 @@ class BarangMasukController extends Controller
             });
         }
 
-        // 🧩 FILTER KATEGORI
         if ($request->filled('kategori')) {
             $query->whereHas('barangById', function ($q) use ($request) {
                 $q->where('id_kategori', $request->kategori);
@@ -41,29 +40,58 @@ class BarangMasukController extends Controller
 
         $DBarangMasuk = $query->paginate(5)->withQueryString();
 
-        return view('admin.barang-masuk.page-barang-masuk', [
+        /** @var \App\Models\User|null $user */
+        $user = Auth::user();
+        $role = $user->role;
+
+        $data = [
             'title' => 'Barang Masuk | Inventory Barang',
             'navlink' => 'Barang Masuk',
             'd_barangmasuk' => $DBarangMasuk,
-            'kategoriList' => KategoriModel::all(), // untuk dropdown
-        ]);
+            'kategoriList' => KategoriModel::all(),
+            'role' => $role,
+        ];
+
+        if ($role === 'admin') {
+            return view('admin.barang-masuk.page-barang-masuk', $data);
+        } elseif ($role === 'user') {
+            return view('users.barang-masuk.data-barang-masuk', $data);
+        }
+
+        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
     }
+
 
     public function PageTambahBMasuk()
     {
-
+        // Ambil data supplier dan barang
         $DataSupplier = SupplierModel::all();
         $DataBarang = BarangModel::all();
 
+        // Tentukan role user
+        $user = Auth::user();
+        $role = $user->role ?? abort(403, 'Unauthorized');
+
+        // Data yang dikirim ke view
         $data = [
             'title' => 'Tambah Barang Masuk | Inventory Barang',
             'navlink' => 'Tambah Barang Masuk',
             'DSupplier' => $DataSupplier,
             'DBarang' => $DataBarang,
+            'role' => $role,
         ];
 
-        return view('admin.barang-masuk.page-tambah-barang-masuk', $data);
+        // Pilih view sesuai role
+        if ($role === 'admin') {
+            return view('admin.barang-masuk.page-tambah-barang-masuk', $data);
+        } elseif ($role === 'user') {
+            return view('users.barang-masuk.page-tambah-barang-masuk', $data);
+        }
+
+        // Jika role lain, blokir akses
+        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
     }
+
 
     public function AksiTambahBMasuk(Request $request)
     {
@@ -92,29 +120,39 @@ class BarangMasukController extends Controller
             ]
         );
 
-        // ✅ Paksa timezone Asia/Jakarta (WIB)
+        // Paksa timezone Asia/Jakarta
         $validated['tanggal_masuk'] = Carbon::parse(
             $validated['tanggal_masuk'],
             'Asia/Jakarta'
         )->format('Y-m-d H:i:s');
 
         DB::transaction(function () use ($validated) {
-
-            // 1️⃣ Simpan transaksi barang masuk
+            // Simpan transaksi barang masuk
             BarangMasuk::create($validated);
 
-            // 2️⃣ Update stok barang (tambah)
+            // Update stok barang
             $barang = BarangModel::lockForUpdate()
                 ->findOrFail($validated['id_barang']);
-
             $barang->stok += $validated['jumlah_masuk'];
             $barang->save();
         });
 
-        return redirect()
-            ->route('admin.barang-masuk-data')
-            ->with('success', 'Barang masuk berhasil ditambahkan & stok diperbarui.');
+        // 🔹 Redirect sesuai role
+        $role = Auth::user()->role;
+        if ($role === 'admin') {
+            return redirect()
+                ->route('admin.barang-masuk-data')
+                ->with('success', 'Barang masuk berhasil ditambahkan & stok diperbarui.');
+        } elseif ($role === 'user') {
+            return redirect()
+                ->route('users.barang-masuk-data') // foldermu "users"
+                ->with('success', 'Barang masuk berhasil ditambahkan & stok diperbarui.');
+        }
+
+        // Jika role lain (tidak diharapkan)
+        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
     }
+
 
     public function PageEditBMasuk($id)
     {

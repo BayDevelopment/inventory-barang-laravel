@@ -6,11 +6,14 @@ use App\Models\BarangKeluar;
 use App\Models\KategoriModel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanBarangKeluar extends Controller
 {
     public function index(Request $request)
     {
+        $role = Auth::user()->role; // Ambil role (admin / user)
+
         $query = BarangKeluar::with([
             'barangById.kategori',
             'supplierById',
@@ -36,17 +39,24 @@ class LaporanBarangKeluar extends Controller
             });
         }
 
-        // 📅 FILTER TANGGAL MASUK
+        // 📅 FILTER TANGGAL KELUAR
         if ($request->filled('tanggal_keluar')) {
             $query->where('tanggal_keluar', $request->tanggal_keluar);
         }
 
-        // urutkan terbaru
+        // Urutkan terbaru
         $query->orderBy('tanggal_keluar', 'desc');
 
         $DBarangKeluar = $query->paginate(5)->withQueryString();
 
-        return view('admin.laporan.laporan-barang-keluar', [
+        // Pilih view sesuai role
+        if ($role === 'admin') {
+            $view = 'admin.laporan.laporan-barang-keluar';
+        } else { // user
+            $view = 'users.laporan.laporan-barang-keluar';
+        }
+
+        return view($view, [
             'title' => 'Laporan Barang Keluar | Inventory Barang',
             'navlink' => 'laporan_keluar',
             'breadcrumb' => 'Laporan Barang Keluar',
@@ -55,14 +65,23 @@ class LaporanBarangKeluar extends Controller
         ]);
     }
 
-    public function printPDF(){
-        $Data = BarangKeluar::with(['supplierById','barangById'])->get();
+    public function printPDF()
+    {
+        $role = Auth::user()->role;
 
-        $pdf =Pdf::loadView('admin.laporan.laporan-barang-keluar-pdf',[
+        $Data = BarangKeluar::with(['supplierById', 'barangById'])->get();
+
+        // Pilih view PDF sesuai role
+        if ($role === 'admin') {
+            $view = 'admin.laporan.laporan-barang-keluar-pdf';
+        } else {
+            $view = 'users.laporan.laporan-barang-keluar-pdf';
+        }
+
+        $pdf = Pdf::loadView($view, [
             'data' => $Data
         ]);
 
         return $pdf->stream('laporan-barang-keluar-pdf.pdf');
     }
-
 }

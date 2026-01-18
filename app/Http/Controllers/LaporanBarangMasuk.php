@@ -6,11 +6,14 @@ use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 use App\Models\KategoriModel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanBarangMasuk extends Controller
 {
     public function index(Request $request)
     {
+        $role = Auth::user()->role; // ambil role user (admin / user)
+
         $query = BarangMasuk::with([
             'barangById.kategori',
             'supplierById',
@@ -38,7 +41,7 @@ class LaporanBarangMasuk extends Controller
 
         // 📅 FILTER TANGGAL MASUK
         if ($request->filled('tanggal_masuk')) {
-            $query->where('tanggal_masuk', $request->tanggal_masuk);
+            $query->whereDate('tanggal_masuk', $request->tanggal_masuk);
         }
 
         // urutkan terbaru
@@ -46,7 +49,14 @@ class LaporanBarangMasuk extends Controller
 
         $DBarangMasuk = $query->paginate(5)->withQueryString();
 
-        return view('admin.laporan.laporan-barang-masuk', [
+        // Tentukan view sesuai role
+        if ($role === 'admin') {
+            $view = 'admin.laporan.laporan-barang-masuk';
+        } else {
+            $view = 'users.laporan.laporan-barang-masuk';
+        }
+
+        return view($view, [
             'title' => 'Laporan Barang Masuk | Inventory Barang',
             'navlink' => 'laporan_masuk',
             'breadcrumb' => 'Laporan Barang Masuk',
@@ -55,13 +65,20 @@ class LaporanBarangMasuk extends Controller
         ]);
     }
 
-    public function printPDF(){
-        $Data = BarangMasuk::with(['supplierById','barangById'])->get();
+    public function printPDF()
+    {
+        $role = Auth::user()->role; // ambil role user (admin / user)
+        $Data = BarangMasuk::with(['supplierById', 'barangById'])->get();
 
-        $pdf =Pdf::loadView('admin.laporan.laporan-barang-masuk-pdf',[
+        // Tentukan view PDF sesuai role
+        $view = $role === 'admin'
+            ? 'admin.laporan.laporan-barang-masuk-pdf'
+            : 'users.laporan.laporan-barang-masuk-pdf';
+
+        $pdf = Pdf::loadView($view, [
             'data' => $Data
         ]);
 
-        return $pdf->stream('laporan-barang-masuk-pdf.pdf');
+        return $pdf->stream('laporan-barang-masuk.pdf');
     }
 }

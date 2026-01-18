@@ -5,29 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\BarangModel;
 use App\Models\KategoriModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BarangController extends Controller
 {
+
     public function PageBarang(Request $request)
     {
         $query = BarangModel::with('kategori');
 
-        // SEARCH (kode_barang / nama_barang)
+        // SEARCH
         if ($request->filled('search')) {
             $search = $request->search;
-
             $query->where(function ($q) use ($search) {
                 $q->where('kode_barang', 'like', "%{$search}%")
                     ->orWhere('nama_barang', 'like', "%{$search}%");
             });
         }
 
-        // FILTER KATEGORI (id_kategori)
+        // FILTER KATEGORI
         if ($request->filled('kategori')) {
             $query->where('id_kategori', $request->kategori);
         }
 
-        // FILTER SATUAN (ambil dari tb_kategori.satuan)
+        // FILTER SATUAN
         if ($request->filled('satuan')) {
             $query->whereHas('kategori', function ($q) use ($request) {
                 $q->where('satuan', $request->satuan);
@@ -37,16 +38,22 @@ class BarangController extends Controller
         $barang = $query->orderBy('id_barang', 'desc')->get();
 
         $data = [
-            'title' => 'Data Barang | Inventory Barang',
-            'navlink' => 'Data Barang',
-            'barang' => $barang,
-            'totalBarang' => BarangModel::count(), // untuk card jumlah semua barang
-            'kategoriList' => KategoriModel::orderBy('kategori')->get(), // dropdown kategori
-            'satuanList' => KategoriModel::select('satuan')->distinct()->orderBy('satuan')->pluck('satuan'), // dropdown satuan
+            'title'        => 'Data Barang | Inventory Barang',
+            'navlink'      => 'Data Barang',
+            'barang'       => $barang,
+            'totalBarang'  => BarangModel::count(),
+            'kategoriList' => KategoriModel::orderBy('kategori')->get(),
+            'satuanList'   => KategoriModel::select('satuan')->distinct()->orderBy('satuan')->pluck('satuan'),
         ];
 
-        return view('admin.barang.page-barang', $data);
+        // 🔥 ROLE BASED VIEW
+        if (Auth::user()->role === 'admin') {
+            return view('admin.barang.page-barang', $data);
+        }
+
+        return view('users.barang.data-barang', $data);
     }
+
 
     public function PageTambahBarang()
     {

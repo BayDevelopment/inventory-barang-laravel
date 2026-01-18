@@ -62,20 +62,66 @@
                     <hr class="dropdown-divider">
                 </li>
                 <!-- Menu items -->
-                <li><a class="dropdown-item <?= $navlink == 'Pengaturan' ? 'active' : '' ?>"
-                        href="{{ route('user.setting') }}"><span><i class="fa-solid fa-gear"></i></span> Pengaturan</a></li>
-                {{-- <li><a class="dropdown-item" href="#!">Aktivitas</a></li>
                 <li>
-                    <hr class="dropdown-divider" />
-                </li> --}}
+                    <a class="dropdown-item <?= $navlink == 'Pengaturan' ? 'active' : '' ?>"
+                        href="{{ route('user.setting') }}">
+                        <i class="fa-solid fa-gear me-2"></i> Pengaturan
+                    </a>
+                </li>
+
                 <li>
-                    <a href="#" class="dropdown-item" onclick="confirmLogout(event)">
-                        <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span> Logout
+                    <a href="#" class="dropdown-item text-danger" onclick="confirmLogout(event)">
+                        <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Logout
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </li>
+
+                <!-- Tambahkan CSS -->
+                <style>
+                    /* Dropdown items modern */
+                    .dropdown-menu .dropdown-item {
+                        border-radius: 8px;
+                        transition: all 0.2s ease-in-out;
+                        background-color: #f8f9fa;
+                        /* default background */
+                        color: #212529;
+                        margin: 2px 0;
+                        /* jarak antar item */
+                    }
+
+                    /* Hover */
+                    .dropdown-menu .dropdown-item:hover {
+                        background-color: #e2e6ea;
+                        /* warna saat hover */
+                        color: #212529;
+                    }
+
+                    /* Focus (keyboard navigation) */
+                    .dropdown-menu .dropdown-item:focus {
+                        background-color: #d6d8db;
+                        /* warna saat focus */
+                        outline: none;
+                        color: #212529;
+                    }
+
+                    /* Active (misal menu aktif) */
+                    .dropdown-menu .dropdown-item.active {
+                        background-color: #ced4da;
+                        color: #212529;
+                        font-weight: 500;
+                    }
+
+                    /* Jika item text-danger (Logout) */
+                    .dropdown-menu .dropdown-item.text-danger:hover,
+                    .dropdown-menu .dropdown-item.text-danger:focus {
+                        background-color: #f8d7da;
+                        /* merah muda saat hover/focus */
+                        color: #721c24;
+                    }
+                </style>
+
             </ul>
         </li>
     </ul>
